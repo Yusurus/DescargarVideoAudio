@@ -77,7 +77,7 @@ class VideoDownloaderGUI:
         
         # Título
         title_label = ttk.Label(main_frame, text="🎥 Descargador de Videos", style='Title.TLabel')
-        title_label.grid(row=0, column=0, pady=(0, 20))
+        title_label.grid(row=0, column=0, pady=(0, 10))
         
         # Crear el notebook (pestañas)
         self.notebook = ttk.Notebook(main_frame)
