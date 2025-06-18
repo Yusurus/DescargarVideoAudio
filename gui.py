@@ -690,6 +690,8 @@ def main():
     root = tk.Tk()
     app = VideoDownloaderGUI(root)
     
+    root.iconbitmap("icono.ico")
+    
     # Iniciar bucle principal
     root.mainloop()
 
