@@ -11,8 +11,20 @@ class VideoDownloaderGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Descargador de Videos - YouTube & Más")
-        self.root.geometry("900x700")
-        self.root.minsize(800, 600)
+        # Tamaño deseado de la ventana
+        ancho_ventana = 800
+        alto_ventana = 650
+
+        # Obtener tamaño de la pantalla
+        ancho_pantalla = self.root.winfo_screenwidth()
+        alto_pantalla = self.root.winfo_screenheight()
+
+        # Calcular coordenadas para centrar
+        x = (ancho_pantalla // 2) - (ancho_ventana // 2)
+        y = (alto_pantalla // 2) - (alto_ventana // 2)-20
+
+        # Establecer tamaño y posición centrada
+        self.root.geometry(f"{ancho_ventana}x{alto_ventana}+{x}+{y}")
         
         # Configurar estilo
         self.setup_styles()
@@ -677,12 +689,6 @@ def main():
     # Crear aplicación
     root = tk.Tk()
     app = VideoDownloaderGUI(root)
-    
-    # Centrar ventana
-    root.update_idletasks()
-    x = (root.winfo_screenwidth() // 2) - (root.winfo_width() // 2)
-    y = (root.winfo_screenheight() // 2) - (root.winfo_height() // 2)
-    root.geometry(f"+{x}+{y}")
     
     # Iniciar bucle principal
     root.mainloop()
