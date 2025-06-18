@@ -237,9 +237,9 @@ class VideoDownloaderGUI:
         ttk.Label(config_frame, text="Calidad:").grid(row=1, column=0, sticky=tk.W, padx=(0, 10))
         
         self.quality_var = tk.StringVar(value="720p")
-        quality_combo = ttk.Combobox(config_frame, textvariable=self.quality_var, state="readonly", width=20)
-        quality_combo['values'] = ("480p", "720p", "1080p", "Mejor disponible", "Audio únicamente")
-        quality_combo.grid(row=1, column=1, sticky=tk.W, pady=(0, 10))
+        self.quality_combo = ttk.Combobox(config_frame, textvariable=self.quality_var, state="readonly", width=20)
+        self.quality_combo['values'] = ("480p", "720p", "1080p", "Mejor disponible", "Audio únicamente")
+        self.quality_combo.grid(row=1, column=1, sticky=tk.W, pady=(0, 10))
         
         # Carpeta de descarga
         ttk.Label(config_frame, text="Carpeta:").grid(row=2, column=0, sticky=tk.W, padx=(0, 10))
@@ -287,10 +287,11 @@ class VideoDownloaderGUI:
         
         # Botón de descarga principal
         self.download_btn = ttk.Button(
-            button_frame, 
-            text="⬇️ Iniciar Descarga", 
-            command=self.start_download,
-            style='Accent.TButton'
+        button_frame, 
+        text="⬇️ Iniciar Descarga", 
+        command=self.start_download,
+        style='Accent.TButton',
+        state=tk.DISABLED  # Añadir esta línea
         )
         self.download_btn.pack(side=tk.LEFT, padx=(0, 10))
         
@@ -357,6 +358,20 @@ class VideoDownloaderGUI:
             self._display_playlist_info(info)
         
         self.info_text.config(state=tk.DISABLED)
+        
+        # Actualizar calidades disponibles
+        if info['type'] == 'video' and info['formats']:
+            available_qualities = info['formats'] + ["Mejor disponible", "Audio únicamente"]
+            self.quality_combo['values'] = available_qualities
+            # Seleccionar una calidad por defecto que esté disponible
+            if "720p" in available_qualities:
+                self.quality_var.set("720p")
+            elif available_qualities:
+                self.quality_var.set(available_qualities[0])
+        else:
+            # Para playlists o cuando no hay formatos específicos, usar valores por defecto
+            self.quality_combo['values'] = ("480p", "720p", "1080p", "Mejor disponible", "Audio únicamente")
+            self.quality_var.set("720p")
         
         # Habilitar descarga
         self.download_btn.config(state=tk.NORMAL)
@@ -591,6 +606,9 @@ class VideoDownloaderGUI:
         self.info_text.delete(1.0, tk.END)
         self.info_text.config(state=tk.DISABLED)
         self.download_btn.config(state=tk.DISABLED)
+        # Restablecer calidades por defecto
+        self.quality_combo['values'] = ("480p", "720p", "1080p", "Mejor disponible", "Audio únicamente")
+        self.quality_var.set("720p")
     
     def browse_folder(self):
         """Abre el diálogo para seleccionar carpeta"""
@@ -679,7 +697,9 @@ TECNOLOGÍA:
 • tkinter (interfaz gráfica)
 • yt-dlp (motor de descarga)
 
-DESARROLLADO CON ❤️
+DESARROLLADO CON ❤️ POR:
+>>Yusurus<<
+     correo: yjru_at@hotmail.com
         """        
         messagebox.showinfo("Acerca de", about_text)
     

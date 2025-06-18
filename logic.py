@@ -95,11 +95,15 @@ class VideoDownloader:
         if 'formats' in info:
             formats_seen = set()
             for fmt in info['formats']:
-                if fmt.get('height'):
+                if fmt.get('height') and fmt.get('vcodec') != 'none':  # Filtrar solo video
                     quality = f"{fmt['height']}p"
                     if quality not in formats_seen:
                         processed_info['formats'].append(quality)
                         formats_seen.add(quality)
+            
+            # Ordenar calidades de menor a mayor
+            quality_order = {'480p': 480, '720p': 720, '1080p': 1080, '1440p': 1440, '2160p': 2160}
+            processed_info['formats'].sort(key=lambda x: quality_order.get(x, int(x.replace('p', ''))))
         
         self._log_video_info(processed_info)
         return processed_info
