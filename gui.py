@@ -1,10 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 import threading
-from pathlib import Path
-import webbrowser
-import os
-import sys
 from datetime import datetime
 from logic import VideoDownloader, check_dependencies
 
