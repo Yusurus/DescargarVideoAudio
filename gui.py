@@ -228,7 +228,7 @@ class VideoDownloaderGUI:
         type_frame = ttk.Frame(config_frame)
         type_frame.grid(row=0, column=1, sticky=tk.W, pady=(0, 10))
         
-        ttk.Radiobutton(type_frame, text="📹 Video individual", 
+        ttk.Radiobutton(type_frame, text="📹 Video o audio individual", 
                        variable=self.download_type_var, value="single").pack(side=tk.LEFT, padx=(0, 20))
         ttk.Radiobutton(type_frame, text="📋 Playlist completa", 
                        variable=self.download_type_var, value="playlist").pack(side=tk.LEFT)
