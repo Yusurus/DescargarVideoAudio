@@ -24,7 +24,7 @@ class VideoDownloader:
         self.log_callback = log_callback
         self.is_downloading = False
         self.download_thread = None
-        self.current_download_path = "./descargas"
+        self.current_download_path = os.path.join(os.path.expanduser("~"), "Downloads")
         
         # Crear carpeta de descargas por defecto
         Path(self.current_download_path).mkdir(exist_ok=True)

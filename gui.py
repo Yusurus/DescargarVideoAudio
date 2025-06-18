@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
+from PIL import Image, ImageTk
 import threading
 from datetime import datetime
 from logic import VideoDownloader, check_dependencies
+import os
 
 # Importar la clase VideoDownloader del archivo anterior
 # from video_downloader import VideoDownloader, check_dependencies
@@ -26,6 +28,17 @@ class VideoDownloaderGUI:
         # Establecer tamaño y posición centrada
         self.root.geometry(f"{ancho_ventana}x{alto_ventana}+{x}+{y}")
         
+        # Configurar icono multiplataforma
+        try:
+            if os.path.exists("icono.ico"):
+                self.root.iconbitmap("icono.ico")
+            elif os.path.exists("icono.png"):
+                # Para Linux/Mac
+                icon = tk.PhotoImage(file="icono.png")
+                self.root.iconphoto(True, icon)
+        except:
+            pass  # Si no encuentra el icono, continúa sin error
+        
         # Configurar estilo
         self.setup_styles()
         
@@ -37,7 +50,7 @@ class VideoDownloaderGUI:
         
         # Variables de control
         self.current_info = None
-        self.download_path_var = tk.StringVar(value="./descargas")
+        self.download_path_var = tk.StringVar(value=os.path.join(os.path.expanduser("~"), "Downloads"))
         
         # Crear la interfaz
         self.create_widgets()
@@ -689,8 +702,6 @@ def main():
     # Crear aplicación
     root = tk.Tk()
     app = VideoDownloaderGUI(root)
-    
-    root.iconbitmap("icono.ico")
     
     # Iniciar bucle principal
     root.mainloop()
